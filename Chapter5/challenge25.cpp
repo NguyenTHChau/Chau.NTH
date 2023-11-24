@@ -18,7 +18,7 @@ int main() {
     // Vector to store names
     vector<string> names;
 
-    // Read names from the file until there is no more data
+    // Read names from the file
     string name;
     while (getline(inputFile, name)) {
         names.push_back(name);
@@ -27,10 +27,10 @@ int main() {
     // Close the file
     inputFile.close();
 
-    // Display the names
-    cout << "Names from the file:" << endl;
-    for (const string& student : names) {
-        cout << student << endl;
+    // Display the names in reverse order
+    cout << "Names in reverse order:" << endl;
+    for (int i = names.size() - 1; i >= 0; --i) {
+        cout << names[i] << endl;
     }
 
     return 0;

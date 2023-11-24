@@ -18,7 +18,7 @@ int main() {
     int count = 0;
     int sum = 0;
 
-    // Đọc số từ tệp và tính toán
+    // Đọc các số từ tệp
     while (inputFile >> number) {
         count++;
         sum += number;
