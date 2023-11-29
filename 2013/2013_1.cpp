@@ -1,81 +1,73 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-
-class I {
+class PhanSo {
 private:
-    int a;
-    int b;
-    int x = 7;
+    int tu, mau;
 
 public:
-    I(const int& _a, const int& _b) : a(_a), b(_b) {}
-
-    I operator +(const I& c) {
-        I result(a + c.a, b + c.b);
-        return result;
+    PhanSo() {
+        tu = 0;
+        mau = 1;
     }
 
-    I operator -(const I& c) {
-        I result(a - c.a, b - c.b);
-        return result;
+    PhanSo(const int& tu, const int& mau) {
+        this->tu = tu;
+        this->mau = mau;
+        if (this->mau == 0) {
+            cout << "Mau khong duoc bang 0\n";
+            this->tu = 0;
+            this->mau = 0;
+        }
     }
 
-    I operator -() {
-        I result(-a, -b);
-        return result;
+    PhanSo operator+(const PhanSo& ps) {
+        PhanSo newPhanSo(tu * ps.mau + mau * ps.tu, mau * ps.mau);
+        return newPhanSo;
     }
 
-    I operator *(const I& c) {
-        I result(a * c.a + 7 * b * c.b, a * c.b + b * c.a);// (a+bsqrt(7))*)(c+dsqrt(7))
-        return result;
+    PhanSo operator+=(const PhanSo& ps) {
+       tu =tu * ps.mau +mau * ps.tu;
+       mau *= ps.mau;
+        return *this;
     }
 
-    friend istream& operator >> (istream& is, I& obj) {
-        is >> obj.a >> obj.b;
-        return is;
+    PhanSo operator+(const int& num) {
+        PhanSo newPhanSo(this->tu + num *mau,mau);
+        return newPhanSo;
     }
 
-    friend ostream& operator << (ostream& os, I& obj) {
-        if (obj.b>0&& obj.a>0)
-       { 
-            os << obj.a << " + " << obj.b << "sqrt(" << obj.x<< ")";
-            return os;
-       }
-       if(obj.b<0)
-       {
-            os << obj.a << " "<< obj.b << "sqrt("<< obj.x<< ")";
-            return os;
-       }
-       if(obj.a==0)
-       {
-            os << obj.b << "sqrt("<< obj.x << ")";
-            return os;
-       }
-       if(obj.b==0)
-       {
-            os << obj.a;
-            return os;
-       }
-       return os;
+    PhanSo operator++() {
+        tu += mau;
+        return *this;
+    }
+
+    operator int() {
+        return tu / mau;
+    }
+
+    friend ostream& operator<<(ostream& out, const PhanSo& ps) {
+        out << ps.tu << "/" << ps.mau;
+        return out;
+    }
+
+    ~PhanSo() {
+        tu = 0;
+        mau = 1;
     }
 };
-
-int main() {
-    I complex1(3, 2);
-    I complex2(1, -5);
-
-    cout << "Complex 1: " << complex1 << endl;
-    cout << "Complex 2: " << complex2 << endl;
-
-    I sum = complex1 + complex2;
-    I difference = complex1 - complex2;
-    I negation = -complex1;
-    I product = complex1 * complex2;
-
-    cout << "Sum: " << sum << endl;
-    cout << "Difference: " << difference << endl;
-    cout << "Negation: " << negation << endl;
-    cout << "Product: " << product << endl; 
-
+using namespace std;
+int main ()
+{
+    PhanSo a(1,3),c;
+    int b=8;
+    c=a+b;
+    cout << "c= "<< a<< "+ "<< b << " = "<< c << endl;
+    cout <<"++c: ";
+    cout << "c= "<< ++c << endl;
+    cout << "a= "<< a << " + "<< c << endl;
+    a+=c;
+    cout << "a= "<< a << endl;
+    b=a;
+    cout << "b= "<< b<< endl;
     return 0;
 }
