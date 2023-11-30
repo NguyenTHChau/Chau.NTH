@@ -22,35 +22,35 @@ public:
 
     PhanSo operator+(const PhanSo& ps) {
         PhanSo newPhanSo(tu * ps.mau + mau * ps.tu, mau * ps.mau);
-        return newPhanSo;
+        return newPhanSo; // Định nghĩa lại phép '+' giữa 2 phân số
     }
 
     PhanSo operator+=(const PhanSo& ps) {
        tu =tu * ps.mau +mau * ps.tu;
        mau *= ps.mau;
-        return *this;
+        return *this; // Định nghĩa lại phép '+='
     }
 
     PhanSo operator+(const int& num) {
         PhanSo newPhanSo(this->tu + num *mau,mau);
-        return newPhanSo;
+        return newPhanSo; // Định nghĩa lại phép công giữa phân số và 1 số bất kì
     }
 
     PhanSo operator++() {
         tu += mau;
-        return *this;
+        return *this; // Định nghĩa lại phép '++'
     }
 
     operator int() {
-        return tu / mau;
+        return tu / mau; // Trình bày theo kiểu phân số
     }
 
     friend ostream& operator<<(ostream& out, const PhanSo& ps) {
         out << ps.tu << "/" << ps.mau;
-        return out;
+        return out; // xuất phân số
     }
 
-    ~PhanSo() {
+    ~PhanSo() { // Hủy phân số để giải phóng bộ nhớ
         tu = 0;
         mau = 1;
     }

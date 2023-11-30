@@ -9,7 +9,7 @@ class Shape
 {
 public:
     Shape(){
-        cerr << "construct Shape" << endl;
+        cerr << "Construct Shape" << endl;
     }
     virtual string Description(){
         stringstream ss;
@@ -73,7 +73,7 @@ public:
     float Area(){
         return PI*majorR*minorR;
     }
-    void scale(float scaleFactor){
+    void Scale(float scaleFactor){
         this->majorR *=scaleFactor;
         this->minorR *=scaleFactor;
     }
@@ -94,7 +94,7 @@ int main()
     Ellipse ellipse(2.0/3,6);
     Shape *shape = &ellipse;
     shape->Scale(1.0/2);
-    //shape->scale(3,1.0/3);
+    //shape->Scale(3,1.0/3);
 
     cout << "ellipse: " << endl;
     cout << ellipse.Description() << endl;
@@ -108,7 +108,7 @@ int main()
     cout << shape->InterfaceType().name() << endl;
     cout << shape->ImplementationType().name() << endl;
 
-    //shape ashape;
+    //Shape ashape;
     //cout << ashape.Description() << endl;
 
     return 0; //no error

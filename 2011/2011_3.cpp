@@ -1,14 +1,15 @@
 #include <iostream>
 using namespace std;
+
 class MayLyTam {
 private:
     int luongxang;
     double congsuat;
-    double thoigian;
+    double Time;
 public:
     void nhap() {
         cout << "Nhap thoi gian hoat dong: ";
-        cin >> thoigian;
+        cin >> Time;
         cout << "Nhap Luong xang: ";
         cin >> luongxang;
         cout << "Nhap cong suat loc cua may: ";
@@ -16,25 +17,25 @@ public:
     }
     void setTgian(double t)
     {
-        thoigian=t;
+        Time=t;
     }
-    double getThoiGian()
+    double getTime()
     {
-        return this ->thoigian;
+        return Time;
     }
-
-
+    
     static long long DON_GIA_THUE_MayLyTam;
-
+    
     float tinhLuongNuoc() {
-        return this->getThoiGian() * congsuat;
+        return this->getTime() * congsuat;
     }
-    long tinhChoPhiThueMoiMay() {
-        return DON_GIA_THUE_MayLyTam * this->getThoiGian();
+
+    long tinhChiPhiThueMoiMay() {
+        return DON_GIA_THUE_MayLyTam * this->getTime();
     }
 
     long tinhChiPhi() {
-        return tinhChoPhiThueMoiMay() + luongxang * 20000;
+        return tinhChiPhiThueMoiMay() + luongxang * 20000;
     }
 };
 
@@ -42,7 +43,7 @@ class MayXucTac {
 private:
     int luonghoachat;
     double congsuat;
-    double thoigian;
+    double Time;
 public:
     void nhap() {
         double thoiGian = 0;
@@ -55,73 +56,75 @@ public:
     }
     void setTgian(double t)
     {
-        thoigian=t;
+        Time=t;
     }
-    double getThoiGian()
+    double getTime()
     {
-        return this ->thoigian;
+        return Time;
     }
  
     float CongSuatThucTe() {
-        if (this->getThoiGian() >= 10) {
-            return congsuat * (luonghoachat / 100) / (this->getThoiGian() / 10);
+        if (this->getTime() >= 10) {
+            return congsuat * (luonghoachat / 100) / (this->getTime() / 10);
         } else {
             return congsuat * (luonghoachat / 100);
         }
     }
 
     static long long DON_GIA_THUE_MayXucTac;
-    long tinhChoPhiThueMoiMay() {
-        return DON_GIA_THUE_MayXucTac* this->getThoiGian();
+    long tinhChiPhiThueMoiMay() {
+        return DON_GIA_THUE_MayXucTac* this->getTime();
     }
 
     float tinhLuongNuoc() {
-        return this->getThoiGian() * CongSuatThucTe();
+        return this->getTime() * CongSuatThucTe();
     }
 
     long tinhChiPhi() {
-        return tinhChoPhiThueMoiMay() + luonghoachat * 10000;
+        return tinhChiPhiThueMoiMay() + luonghoachat * 10000;
     }
 };
+
 long long MayLyTam::DON_GIA_THUE_MayLyTam = 50000;
 long long MayXucTac::DON_GIA_THUE_MayXucTac = 80000;
+
 int main() {
-    int m,n;
+    int SoMayXucTac,SoMayLyTam;
     double nuoc; 
     cout << " Nhap vao luong nuoc trong ao ";
     cin >> nuoc;
     cout <<"Nhap so luong may xuc tac";
-    cin >> m;
+    cin >> SoMayXucTac;
     cout <<"Nhap so luong may ly tam";
-    cin >> n;
+    cin >> SoMayLyTam;
     long long chiphixuctac=0;
     long luong_nuoc_xuc_tac=0;
     long long chiphilytam=0;
     long luong_nuoc_ly_tam=0;
-   for(int i=1;i<=m;i++)
-   {
-    MayXucTac a;
-    a.nhap();
-    chiphixuctac=chiphixuctac+a.tinhChiPhi();// chiphixuctac+=a.tinhChiPhi();
-    luong_nuoc_xuc_tac=luong_nuoc_xuc_tac+a.tinhLuongNuoc();
-   }
-   for (int i = 1; i <=m; i++)
-   {
-    MayLyTam b;
-    b. nhap();
-    chiphilytam=chiphilytam+b.tinhChiPhi();
-    luong_nuoc_ly_tam=luong_nuoc_ly_tam+b.tinhLuongNuoc();
-   }
-   long long tongchiphi=chiphilytam+chiphixuctac;
-   long long tongluongnuoc=luong_nuoc_ly_tam+luong_nuoc_xuc_tac;
-   if (tongluongnuoc>=nuoc)
-   {
-    cout << " Ao duoc loc het "<< endl;
-   }
-   else 
-   {
-    cout << "Ao chua duoc loc het" << endl;
-   }
-   cout << " Tong chi phi la " << tongchiphi;
+    for(int index=1;index<=SoMayXucTac;index++)
+    {
+        MayXucTac a;
+        a.nhap();
+        chiphixuctac += a.tinhChiPhi();
+        luong_nuoc_xuc_tac += a.tinhLuongNuoc();
+    }
+    for (int index = 1; index <=SoMayXucTac; index++)
+    {
+        MayLyTam b;
+        b. nhap();
+        chiphilytam += b.tinhChiPhi();
+        luong_nuoc_ly_tam += b.tinhLuongNuoc();
+    }
+    long long tongchiphi= chiphilytam + chiphixuctac;
+    long long tongluongnuoc= luong_nuoc_ly_tam + luong_nuoc_xuc_tac;
+    if (tongluongnuoc>=nuoc)
+    {
+        cout << " Ao duoc loc het "<< endl;
+    }
+    else 
+    {
+        cout << "Ao chua duoc loc het" << endl;
+    }
+    cout << " Tong chi phi la " << tongchiphi;
     return 0;
 }

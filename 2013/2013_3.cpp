@@ -1,96 +1,87 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-
-class absList {
+class absList
+{
 protected:
-    int dataId;
-
+    int dataID;
 public:
-    absList(int pID = 0) {
-        dataId = pID;
+    absList(int pId=0){
+        dataID = pId;
     }
-
-    virtual ~absList() {}
-
-    int getData() {
-        return dataId;
+    virtual ~absList(){}
+    int getData(){
+        return dataID;
     }
-
-    virtual absList* addFirst(int pID) = 0;
+    virtual absList* addFirst(int pId) = 0;
     virtual absList* getSubItem() = 0;
     virtual void showAll(ostream&) = 0;
-    virtual int countAll() {
-        return 0;
+    virtual int countAll(){
+        return 0; 
     }
 };
 
-class simpleList : public absList {
+class simpleList : public absList
+{
 public:
-    simpleList(int pId) : absList(pId) {}
-
-    virtual absList* addFirst(int pId) {
-        dataId = pId;
+    simpleList(int pId):absList(pId){}
+    virtual absList* addFirst(int pId){
+        dataID = pId;
         return this;
     }
-
-    virtual absList* getSubItem() {
-        return NULL;
+    virtual absList* getSubItem(){
+        return NULL; 
     }
-
     virtual void showAll(ostream& outDev) {
-        outDev << dataId << " ";
+        outDev << dataID << " ";
     }
-
-    virtual int countAll() {
+    virtual int countAll(){
         return 1;
     }
 };
 
-class linearList : public absList {
+class linearList:public absList
+{
     absList* subLst;
-
 public:
-    linearList(int pId) : absList(pId) {
+    linearList(int pId):absList(pId){
         subLst = NULL;
     }
-
-    virtual ~linearList() {
-        if (subLst != NULL) {
+    virtual ~linearList(){
+        if(subLst !=NULL)
             delete subLst;
-        }
     }
-
-    virtual absList* addFirst(int pId) {
-        linearList* Lst = new linearList(pId);
+    virtual absList* addFirst(int pId){
+        linearList *Lst = new linearList(pId);
         Lst->subLst = this;
         return Lst;
     }
-
-    virtual absList* getSubItem() {
+    virtual absList* getSubItem(){
         return subLst;
     }
-
-    virtual void showAll(ostream& outDev) {
-        for (absList* temp = this; temp; temp = temp->getSubItem()) {
-            outDev << temp->getData() << " ";
+    virtual void showAll(ostream& outDev) override{
+        absList* current = this;
+        while(current != NULL){
+            outDev << current->getData() << " ";
+            current = current->getSubItem();
         }
         outDev << endl;
     }
-
-    int countAll() {
-        int count = 0;
-        for (absList* temp = this; temp; temp = temp->getSubItem()) {
-            count++;
+    virtual int countAll() override{
+        if(subLst != NULL){
+            return 1 + subLst->countAll();
         }
-        return count;
+        else{
+            return 1;
+        }
     }
 };
 
-int main() {
-    absList* lnkst = new linearList(37);
-    for (int i = 1; i <= 8; i++) {
-        lnkst = lnkst->addFirst(i * i - 7 * i);
+void main()
+{
+    simpleList *sLst = new simpleList(-13);
+    absList *lnkLst = new linearList(37);
+    for (int i = 1; i <= 8;i++){
+        lnkLst = lnkLst->addFirst(i*i-7*i);
     }
-    delete lnkst;
-    return 0;
+    delete lnkLst;
 }

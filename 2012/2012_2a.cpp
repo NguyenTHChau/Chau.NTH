@@ -1,47 +1,34 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-class Animal {
+class Shape{
 public:
-    virtual void speak() {
-        cout << "This is an animal speaking." << endl;
-    }
+    virtual void draw() const =0;
 };
 
-class Dog : public Animal {
+class Square:public Shape{
 public:
-    void speak() {
-        cout << "Woof! Woof!" << endl;
+    void draw() const override{
+        cout << "Ve hinh vuong" << endl;
     }
+    ~Square(){}
 };
 
-class Cat : public Animal {
+class Circle:public Shape{
+private:
+    double radius;
 public:
-    void speak() {
-        cout << "Meow! Meow!" << endl;
+    void draw() const override{
+        cout << "Ve hinh tron" << endl;
     }
+    ~Circle(){}
 };
 
-class Duck : public Animal {
-public:
-    void speak() {
-        cout << "Quack! Quack!" << endl;
-    }
-};
-
-// Sử dụng đa hình
-void animal_sound(Animal* animal) {
-    animal->speak();
-}
-
-int main() {
-    Dog dog;
-    Cat cat;
-    Duck duck;
-
-   // In animal_sound(&dog);  ra "Woof! Woof!"
-    animal_sound(&cat);  // In ra "Meow! Meow!"
-    animal_sound(&duck); // In ra "Quack! Quack!"
-
+int main()
+{
+    Shape* shape1 = new Circle();
+    Shape* shape2 = new Square();
+    shape1-> draw();//Output: Ve hinh tron
+    shape2-> draw();//Output: Ve hinh vuong
     return 0;
 }

@@ -1,73 +1,77 @@
 #include<iostream>
 using namespace std;
-class PhanSo {
+
+class SoPhuc
+{
 private:
-    int tu, mau;
-
+    int real; // Phan thuc
+    int imag; // Phan ao
 public:
-    PhanSo() {
-        tu = 0;
-        mau = 1;
+    SoPhuc(int rl=0,int img=0):real(rl),imag(img){}
+    
+    int getReal() const{
+        return real;
+    }
+    int getImag() const{
+        return imag;
     }
 
-    PhanSo(const int& tu, const int& mau) {
-        this->tu = tu;
-        this->mau = mau;
-        if (this->mau == 0) {
-            cout << "Mau khong duoc bang 0\n";
-            this->tu = 0;
-            this->mau = 0;
+    void nhap(){
+        cout << "nhap phan thuc: ";
+        cin >> real;
+        cout << "nhap phan ao: ";
+        cin >> imag;
+    }
+    void xuat(){
+        cout << real;
+        if(imag>0){
+            cout << " + " << imag <<"sqrt(7)";
         }
+        else{
+            cout << " + " << -imag <<"sqrt(7)";
+        }
+        cout << endl;
     }
 
-    PhanSo operator+(const PhanSo& ps) {
-        PhanSo newPhanSo(tu * ps.mau + mau * ps.tu, mau * ps.mau);
-        return newPhanSo;
+    SoPhuc operator+(const SoPhuc& num) const{
+        return SoPhuc(real + num.real,imag + num.imag); // (a+b√7) + (c+d√7) = (a+c) + (b+d)√7
     }
-
-    PhanSo operator+=(const PhanSo& ps) {
-       tu =tu * ps.mau +mau * ps.tu;
-       mau *= ps.mau;
-        return *this;
+    SoPhuc operator-(const SoPhuc& num) const{
+        return SoPhuc(real - num.real,imag - num.imag); // (a+b√7) - (c+d√7) = (a-c) + (b-d)√7 
+    } 
+    SoPhuc operator-() const{
+        return SoPhuc(-real,-imag); // a+b√7 = -a-b√7
     }
-
-    PhanSo operator+(const int& num) {
-        PhanSo newPhanSo(this->tu + num *mau,mau);
-        return newPhanSo;
-    }
-
-    PhanSo operator++() {
-        tu += mau;
-        return *this;
-    }
-
-    operator int() {
-        return tu / mau;
-    }
-
-    friend ostream& operator<<(ostream& out, const PhanSo& ps) {
-        out << ps.tu << "/" << ps.mau;
-        return out;
-    }
-
-    ~PhanSo() {
-        tu = 0;
-        mau = 1;
+    SoPhuc operator*(const SoPhuc& num) const{
+        int newReal = real * num.real + 7 * imag * num.imag; // (a+b√7) * (c+d√7) = (a*c + 7*b*d) + (a*d + b*c)* √7
+        int newImag = real * num.imag + imag * num.real;
+        return SoPhuc(newReal,newImag);
     }
 };
-using namespace std;
-int main ()
+
+int main()
 {
-    PhanSo a(1,3),c;
-    int b=8;
-    c=a+b;
-    cout << "c= "<< a<< "+ "<< b << " = "<< c << endl;
-    cout <<"++c: ";
-    cout << "c= "<< ++c << endl;
-    cout << "a= "<< a << " + "<< c << endl;
-    a+=c;
-    cout << "a= "<< a << endl;
-    b=a;
-    cout << "b= "<< b<< endl;
+    SoPhuc num1,num2,ketqua;
+    cout << "Nhap so thu nhat:\n";
+    num1.nhap();
+    cout << "Nhap so thu hai:\n";
+    num2.nhap();
+
+    ketqua = num1 + num2;
+    cout << "Tong= ";
+    ketqua.xuat();
+
+    ketqua = num1 - num2;
+    cout << "Hieu= ";
+    ketqua.xuat();
+
+    ketqua = -num1;
+    cout << "Phep doi dau so thu nhat= ";
+    ketqua.xuat();
+
+    ketqua = num1 * num2;
+    cout << "Tich= ";
+    ketqua.xuat();
+    
     return 0;
 }

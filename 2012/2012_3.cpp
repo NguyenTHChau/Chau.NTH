@@ -21,13 +21,13 @@ public:
 };
 class Cos: public Function{
 public:
-    double Value (double x)
+    double Value (double x) 
     {
-        return cos(x);
+        return cos(x); 
     }
     double Derive (double x)
     {
-        return -sin(x);
+        return -sin(x); // Đạo hàm của cos(x) = -sin(x)
     }
 };
 
@@ -35,7 +35,7 @@ double DeriveProduct(Function *f, Function *g,double x)
 {
     if(f!=NULL&& g!= NULL)
     {
-        return f->Derive(x)*g->Value(x)+f->Value(x)*g->Derive(x);
+        return f->Derive(x)*g->Value(x)+f->Value(x)*g->Derive(x); // (f*g)'(x) = f'(x) * g(x) + f(x) * g'(x)
     }
     return 0;
 }
@@ -43,7 +43,7 @@ double DeriveSum(Function *f,Function *g,double x)
 {
     if(f!=NULL&& g!= NULL)
     {
-        return f->Derive(x)+g->Derive(x);
+        return f->Derive(x)+g->Derive(x); //(f+g)'(x) = f'(x) + g'(x)
     }
     return 0;
 }
@@ -51,15 +51,15 @@ double DeriveDevide(Function *f,Function *g, double x)
 {
     if (g!=NULL)
     {
-        return (f->Derive(x)*g->Value(x)-f->Value(x)*g->Derive(x))/(g->Derive(x)*g->Derive(x));
+        return (f->Derive(x)*g->Value(x)-f->Value(x)*g->Derive(x))/(g->Derive(x)*g->Derive(x)); // (f/g)'(x) = ( f'(x)*g(x) - f(x)*g'(x) ) / ( g'(x)*g'(x) )
     }
-    return 0; // f/g =f'*g-g'*f/g^2
+    return 0; 
 }
 double DeriveComposite(Function *f,Function *g,double x)
 {
     if(f!= NULL&& g!=NULL)
     {
-        return f->Derive(g->Value(x))*g->Derive(x);// f(g(x))'=g(x)'*f(g(x))'
+        return f->Derive(g->Value(x))*g->Derive(x); // f(g(x))'=g(x)'*f(g(x))'
 
     }
     return 0;

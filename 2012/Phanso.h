@@ -31,7 +31,7 @@ public:
     PhanSo operator+=(const PhanSo& ps) {
         this->tu = this->tu * ps.mau + this->mau * ps.tu;
         this->mau *= ps.mau;
-        return *this;
+        return *this; 
     }
 
     PhanSo operator+(const int& num) {

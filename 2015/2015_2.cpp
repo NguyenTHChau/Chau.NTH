@@ -8,10 +8,10 @@ private:
 
 public:
     BigInteger() {
-        this->bigNum = "";
+        bigNum = "";
     }
 
-    BigInteger(string s) { // loai bo dau cach 
+    BigInteger(string s) {
         for (int i = 0; i < s.size(); i++) {
             if (s[i] == ' ') {
                 for (int j = i; j < s.size(); j++) {
@@ -21,16 +21,16 @@ public:
                 s[s.size() - 1] = '\0';
             }
         }
-        this->bigNum = s;
+        bigNum = s;
     }
 
-    friend istream& operator>>(istream& is, BigInteger& obj) {
-        getline(is, obj.bigNum);
-        return is;
+    friend istream& operator>>(istream& in, BigInteger& obj) {
+        getline(in, obj.bigNum);
+        return in;
     }
 
     bool operator==(const BigInteger& bNum) const {
-        return (this->bigNum == bNum.bigNum);
+        return (bigNum == bNum.bigNum);
     }
 };
 

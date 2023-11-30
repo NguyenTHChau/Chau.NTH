@@ -5,7 +5,7 @@ class IFace {
 public:
     virtual void show() const = 0;
     virtual IFace* clone() const = 0;
-    virtual ~IFace() {}
+    virtual ~IFace() {} // Dùng hàm hủy ảo để giải phóng dữ liệu 1 cách an toàn
 };
 
 class Face : public IFace {
@@ -47,7 +47,7 @@ public:
         return new EyedFace(*this);
     }
 
-    virtual ~EyedFace() {
+    virtual ~EyedFace() { // Hủy eyed face để giải phóng dữ liệu
         COUNT_OBJECT--;
     }
 };

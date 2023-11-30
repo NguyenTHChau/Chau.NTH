@@ -3,185 +3,181 @@
 #include<vector>
 using namespace std;
 
-class Phone_Fee {
+class CuocDt
+{
 private:
-    float _time;
-
+    float time;
 public:
-    static long PRICE_PHONE;
-
-    long calFee() {
-        cout <<"nhap thoi gian ";
-        cin >> _time;
-        return PRICE_PHONE * this->_time;
+    static long CALL_FEE;
+    long cuocGoi(){
+        cout << "Nhap thoi gian goi: ";
+        cin >> time;
+        return CALL_FEE * time; // Cước điện thoại = thời gian gọi * đơn giá (1000/phút)
     }
 };
+long CuocDt::CALL_FEE = 1000;
 
-long Phone_Fee::PRICE_PHONE = 1000;
-
-class Internet_Fee {
+class CuocInternet
+{
 private:
-    long _luongTruyCap;
-
+    long luuLuongTruyCap;
 public:
-    static long PRICE_INTERNET;
-
-    long calFee() {
-        cout << "nhap luong truy cap ";
-        cin >>_luongTruyCap;
-        return PRICE_INTERNET * this->_luongTruyCap;
+    static long INTERNET_PRICE;
+    
+    long internetUse(){
+        cout << "Nhap luu luong truy cap: ";
+        cin >> luuLuongTruyCap;
+        return INTERNET_PRICE * luuLuongTruyCap; // Cước internet = lưu lượng truy cập (MB) * đơn giá truy cập (200 đồng/MB)
     }
-
-    void datLuongTruyCap(long luongTruyCap) {
-        this->_luongTruyCap = luongTruyCap;
+    void datLuongTruyCap(long _luuLuongTruyCap){
+        luuLuongTruyCap = _luuLuongTruyCap;
     }
 };
+long  CuocInternet::INTERNET_PRICE = 200;
 
-long Internet_Fee::PRICE_INTERNET = 200;
-
-class Customer {
+class Client
+{
 private:
-    string FullName;
-    string ID;
-    string Address;
-
+    string hoTen;
+    string chungMinh;
+    string diaChi;
 public:
-    void dangKy() {
+    void dangKy(){
         cin.ignore();
-        cout << "Nhap ho va ten:";
-        getline(cin, this->FullName);
-        cout << "Nhap so chung minh:";
-        cin >> this->ID;
-        cin.ignore(); // để xử lý kí tự xuống dòng
-        cout << "Nhap dia chi:";
-        cin.ignore(); // để xử lý kí tự xuống dòng
-        getline(cin, this->Address);
+        cout << "Nhap ho va ten: ";
+        getline(cin,hoTen);
+        cout << "Nhap chung minh nhan dan: ";
+        cin >> chungMinh;
+        cin.ignore();
+        cout << "Nhap dia chi: ";
+        cin.ignore();
+        getline(cin,diaChi);
     }
-
-    void xuat() const {
-        cout << "Ho va ten: " << FullName << endl;
-        cout << "So chung minh: " << ID << endl;
-        cout << "Dia chi: " << Address << endl;
+    void xuat() const{
+        cout << "Ho va ten: " << hoTen << endl;
+        cout << "So chung minh nhan dan: " << chungMinh << endl;
+        cout << "Dia chi: " << diaChi << endl;
     }
 };
 
-class Basic {
+class Basic
+{
 private:
-    Phone_Fee _phone_fee;
-    Internet_Fee _internet_fee;
-
+    CuocDt phoneFee;
+    CuocInternet internetFee;
 public:
-    long calFee() {
-        return _phone_fee.calFee() + _internet_fee.calFee() + static_cast<long>(0.1 * Phone_Fee::PRICE_PHONE);
-    }
+    long cuocGoi(){
+        return phoneFee.cuocGoi() +  internetFee.internetUse() + static_cast<long>(0.1*CuocDt::CALL_FEE);
+    } // Cước tổng = cước điện thoại + cước internet + 10% VAT
 };
 
-class Data_Fee {
+class DataFree
+{
 private:
-    Phone_Fee _phone_fee;
-    long _luongTruyCap;
-
+    CuocDt _phoneFee;
+    long _luongtruycap;
 public:
     static long NGUONG_MIEN_PHI;
     static long CUOC_THUE_BAO;
 
-    long calFee() {
-        long phone_fee = _phone_fee.calFee();
-        long internet_fee = 0;
-        if (_luongTruyCap > NGUONG_MIEN_PHI) {
-            Internet_Fee temp;
-            temp.PRICE_INTERNET = Internet_Fee::PRICE_INTERNET;
-            temp.datLuongTruyCap(_luongTruyCap - NGUONG_MIEN_PHI);
-            internet_fee = CUOC_THUE_BAO + temp.calFee();
-        } else {
-            internet_fee = CUOC_THUE_BAO;
+    long cuocGoi(){
+        long phoneFee = _phoneFee.cuocGoi();
+        long internetFee = 0;
+        if(_luongtruycap > NGUONG_MIEN_PHI)
+        {
+            CuocInternet result;
+            result.INTERNET_PRICE = CuocInternet::INTERNET_PRICE;
+            result.datLuongTruyCap(_luongtruycap - NGUONG_MIEN_PHI);
+            internetFee = CUOC_THUE_BAO + result.internetUse();
         }
-        return phone_fee + internet_fee;
+        else
+        {
+            internetFee = CUOC_THUE_BAO;
+        }
+        return phoneFee + internetFee;
     }
 };
 
-long Data_Fee::NGUONG_MIEN_PHI = 100;
-long Data_Fee::CUOC_THUE_BAO = 50;
+long DataFree::NGUONG_MIEN_PHI = 1000;
+long DataFree::CUOC_THUE_BAO = 50;
 
-class Data_Fix {
-private:
-    Phone_Fee _phone_fee;
-
+class DataFix
+{
+private: 
+    CuocDt _PhoneFee;
 public:
     static long MUC_CO_DINH;
 
-    long calFee() {
-        return static_cast<long>(0.9 * (_phone_fee.calFee())) + MUC_CO_DINH;
-    }
+    long cuocGoi(){
+        return static_cast<long>(0.9*(_PhoneFee.cuocGoi())) + MUC_CO_DINH;
+    } // Data fix = mức cố định + 10% gói basic
 };
+long DataFix::MUC_CO_DINH = 1000000;
 
-long Data_Fix::MUC_CO_DINH = 1000000;
-
-class Contract {
+class Contract
+{
 private:
-    Customer _cus;
+    Client _client;
     long choice;
     Basic _basic;
-    Data_Fee _data_fee;
-    Data_Fix _data_fix;
-
+    DataFree _dataFree;
+    DataFix _dataFix;
 public:
-    void dangKy() {
-        _cus.dangKy();
-        cout << "Chon goi cuoc: 1-Basic, 2-Data_Fee, 3-Data_Fix:\n";
+    void dangKy(){
+        _client.dangKy();
+        cout << "chon goi cuoc:\n" << "1/ Basic\n" << "2/ Data Free\n"
+             << "3/ Data Fix\n";
         cin >> choice;
     }
-
-    void thongBao() {
+    void xuat(){
         cout << "Khach hang:\n";
-        _cus.xuat();
-       
-        if (choice == 1) {
-            cout << _basic.calFee();
-            cout << "La so tien goi cuoc";
-            
-        } else if (choice == 2) {
-            cout << _basic.calFee();
-            cout << "La so tien goi cuoc";
-            
-        } else if (choice == 3) {
-            cout << _basic.calFee();
-            cout << "La so tien goi cuoc";
-            
-        } else {
-            cout << "Goi cuoc khong hop le!";
+        _client.xuat();
+        switch (choice)
+        {
+        case 1:
+            cout << _basic.cuocGoi();
+            cout << "la so tien cua goi cuoc";
+            break;
+        case 2:
+            cout << _dataFree.cuocGoi();
+            cout << "la so tien cua goi cuoc";
+            break;
+        case 3:
+            cout << _dataFix.cuocGoi();
+            cout << "la so tien cua goi cuoc";
+            break;
+        default:
+            cout << "goi cuoc khong hop le!";
+            break;
         }
-        cout << endl;
     }
 };
 
-class QuanLy {
-    vector<Contract> _ds;
-
+class Manage
+{
+    vector<Contract> _ds; // dùng vector để tạo danh sách hợp đồng
 public:
-    void dangKy() {
-        int n;
-        cout << "Nhap luong hop dong:";
-        cin >> n;
-        for (int i = 0; i < n; i++) {
-            Contract c;
-            c.dangKy();
-            _ds.push_back(c);
+    void dangKy(){
+        int soLuong;
+        cout << "Nhap luong hop dong: ";
+        cin >> soLuong;
+        for(int index=0;index < soLuong;index++){
+            Contract l;
+            l.dangKy();
+            _ds.push_back(l);
         }
     }
-
-    void thongBao() {
-        for (int i = 0; i < _ds.size(); i++) {
-            _ds[i].thongBao();
+    void thongBao(){
+        for(int index=0;index<_ds.size();index++){
+            _ds[index].xuat();
         }
     }
 };
 
-int main() {
-    
-    QuanLy ql;
-    ql.dangKy();
-    ql.thongBao();
-
+int main()
+{
+    Manage kh1;
+    kh1.dangKy();
+    kh1.thongBao();
     return 0;
 }

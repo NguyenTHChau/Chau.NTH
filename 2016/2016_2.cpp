@@ -11,9 +11,9 @@ protected:
 public:
     virtual void nhap() {
         cout << "Nhap ma so benh nhan: ";
-        cin >> this->MSBN;
+        cin >> MSBN;
         cout << "Nhap hoat dong cua benh nhan: ";
-        cin >> this->hoatdong;
+        cin >> hoatdong;
     }
 
     virtual bool TrangThai() {
@@ -24,9 +24,9 @@ public:
         return 0;
     }
 
-    virtual void xuat(ostream& outStream) {
-        outStream << "Ma so benh nhan: " << this->MSBN << endl;
-        outStream << "Hoat dong: " << hoatdong << endl;
+    virtual void xuat(ostream& out) {
+        out << "Ma so benh nhan: " << MSBN << endl;
+        out << "Hoat dong: " << hoatdong << endl;
     }
 };
 
@@ -42,12 +42,12 @@ public:
     }
 
     long TinhTien() override {
-        return this->VienPhi;
+        return VienPhi;
     }
 
-    void xuat(ostream& outStream) override {
-        BenhNhan::xuat(outStream);
-        outStream << "Vien phi: " << VienPhi << endl;
+    void xuat(ostream& out) override {
+        BenhNhan::xuat(out);
+        out << "Vien phi: " << VienPhi << endl;
     }
 };
 
@@ -73,26 +73,28 @@ public:
     }
 
     long TinhTien() override {
-        if (this->loaiphong == 'A') {
-            return this->A * this->soNgayNamVien + this->chiphikhambenh * this->soNgayNamVien;
-        }
-        else if (this->loaiphong == 'B') {
-            return this->B * this->soNgayNamVien + this->chiphikhambenh * this->soNgayNamVien;
-        }
-        else if (this->loaiphong == 'C') {
-            return this->C * this->soNgayNamVien + this->chiphikhambenh * this->soNgayNamVien;
-        }
-        else {
-            return 0;
+        switch (loaiphong)
+        {
+        case 'A':
+            return soNgayNamVien * (chiphikhambenh + A);
+            break;
+        case 'B':
+            return soNgayNamVien * (chiphikhambenh + B);
+            break;
+        case 'C':
+            return soNgayNamVien * (chiphikhambenh + C);
+            break;
+        default:
+            break;
         }
     }
 
-    void xuat(ostream& outStream) override {
-        BenhNhan::xuat(outStream);
-        outStream << "Loai phong: " << loaiphong << endl;
-        outStream << "So ngay nam vien: " << soNgayNamVien << endl;
-        outStream << "Phi kham benh: " << chiphikhambenh << endl;
-        outStream << "Tong chi phi kham benh: " << TinhTien() << endl;
+    void xuat(ostream& out) override {
+        BenhNhan::xuat(out);
+        out << "Loai phong: " << loaiphong << endl;
+        out << "So ngay nam vien: " << soNgayNamVien << endl;
+        out << "Phi kham benh: " << chiphikhambenh << endl;
+        out << "Tong chi phi kham benh: " << TinhTien() << endl;
     }
 };
 
@@ -113,15 +115,15 @@ public:
         int n;
         cin >> n;
         for (int i = 0; i < n; i++) {
-            int chon;
+            int choice;
             cout << "1-Benh Nhan Noi Tru, 2-Benh Nhan Ngoai Tru" << endl;
-            cin >> chon;
+            cin >> choice;
             BenhNhan* p = nullptr;
-            if (chon == 1) {
+            if (choice == 1) {
                 p = new BenhNhanNoiTru();
                 soluongBNNoiT += 1;
             }
-            else if (chon == 2) {
+            else if (choice == 2) {
                 p = new BenhNhanNgoaiTru();
                 soluongBNNgoaiT += 1;
             }
@@ -130,8 +132,8 @@ public:
                 i--;
                 continue;
             }
-            this->ds.push_back(p);
-            this->ds[i]->nhap();
+            ds.push_back(p);
+            ds[i]->nhap();
         }
     }
 
@@ -146,15 +148,15 @@ public:
     long tinhTongTien() {
         long sum = 0;
         for (int i = 0; i < ds.size(); i++) {
-            sum += this->ds[i]->TinhTien();
+            sum += ds[i]->TinhTien();
         }
         return sum;
     }
 
-    void xuatThongTin(ostream& outStream) {
+    void xuatThongTin(ostream& out) {
         for (int i = 0; i < ds.size(); i++) {
-            this->ds[i]->xuat(outStream);
-            outStream << "--------------------" << endl;
+            ds[i]->xuat(out);
+            out << "--------------------" << endl;
         }
     }
 
